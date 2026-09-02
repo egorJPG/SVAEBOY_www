@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="СВАЙБЕТОН — профессиональная забивка железобетонных свай в Калуге и Калужской области. Собственная техника, гарантия качества.">
+    <title>СВАЙБЕТОН — Забивка ж/б свай в Калуге</title>
+    <link rel="icon" href="src/icons/favicon.svg" type="image/svg+xml">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Собственные стили -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===== ШАПКА (HEADER) ===== -->
+<header class="header" id="header">
+    <div class="container header__inner">
+        <!-- Логотип -->
+        <a href="#" class="header__logo">
+            <img src="src/icons/logo.png" alt="СВАЙБЕТОН" class="header__logo-img">
+        </a>
+
+        <!-- Навигация -->
+        <nav class="header__nav" id="mainNav">
+            <ul class="header__nav-list">
+                <li><a href="#services" class="header__nav-link">Услуги</a></li>
+                <li><a href="#prices" class="header__nav-link">Цены</a></li>
+                <li><a href="#projects" class="header__nav-link">Объекты</a></li>
+                <li><a href="#contacts" class="header__nav-link">Контакты</a></li>
+            </ul>
+        </nav>
+
+        <!-- Телефон и кнопка -->
+        <div class="header__actions">
+            <a href="tel:+79000000000" class="header__phone">+7 (900) 000-00-00</a>
+            <button class="btn btn--accent header__callback-btn" id="openCallbackModal">Заказать звонок</button>
+            <!-- Бургер-меню для мобильных -->
+            <button class="header__burger" id="burgerBtn" aria-label="Открыть меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ===== МОБИЛЬНОЕ МЕНЮ ===== -->
+<div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-menu__list">
+        <li><a href="#services" class="mobile-menu__link">Услуги</a></li>
+        <li><a href="#projects" class="mobile-menu__link">Объекты</a></li>
+        <li><a href="#prices" class="mobile-menu__link">Цены</a></li>
+        <li><a href="#contacts" class="mobile-menu__link">Контакты</a></li>
+        <li><a href="tel:+79000000000" class="mobile-menu__phone">+7 (900) 000-00-00</a></li>
+    </ul>
+</div>
+
+<!-- ===== ГЛАВНЫЙ ЭКРАН (HERO) ===== -->
+<section class="hero" id="hero">
+    <div class="hero__overlay"></div>
+    <div class="container hero__inner">
+        <div class="hero__content">
+            <h1 class="hero__title">ЗАБИВКА Ж/Б СВАЙ</h1>
+            <p class="hero__subtitle">По всей Калужской области. Собственная техника. Гарантия качества</p>
+            <p class="hero__slogan">Наши сваи стоят крепко. Даже когда долго и сильно бьют</p>
+            <button class="btn btn--accent btn--lg hero__cta" id="openCalcModal">Рассчитать стоимость</button>
+        </div>
+        <div class="hero__image">
+            <!-- SVG-стилизованная иконка сваи -->
+            <svg class="hero__pile-icon" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="pileGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#E67E22;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#D35400;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="35" y="0" width="30" height="170" rx="2" fill="url(#pileGrad)" />
+                <polygon points="20,170 80,170 50,200" fill="url(#pileGrad)" />
+                <line x1="35" y1="30" x2="65" y2="30" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
+                <line x1="35" y1="60" x2="65" y2="60" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
+                <line x1="35" y1="90" x2="65" y2="90" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
+                <line x1="35" y1="120" x2="65" y2="120" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
+                <line x1="35" y1="150" x2="65" y2="150" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<!-- ===== УСЛУГИ ===== -->
+<section class="section services" id="services">
+    <div class="container">
+        <h2 class="section__title">Услуги</h2>
+        <div class="services__grid">
+            <!-- Карточка 1 -->
+            <div class="card card--service animate-on-scroll">
+                <div class="card__icon">
+                    <i class="fa-solid fa-arrow-down-long"></i>
+                </div>
+                <h3 class="card__title">Забивка свай 150×150 мм</h3>
+                <p class="card__desc">Забивка железобетонных свай сечением 150×150 мм. Оптимальное решение для лёгких конструкций и фундаментов.</p>
+                <p class="card__price">от <strong>2 500 ₽</strong>/м.п.</p>
+            </div>
+            <!-- Карточка 2 -->
+            <div class="card card--service animate-on-scroll">
+                <div class="card__icon">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+                <h3 class="card__title">Забивка свай 300×300 мм</h3>
+                <p class="card__desc">Забивка свай увеличенного сечения для многоэтажных и промышленных объектов. Высокая несущая способность.</p>
+                <p class="card__price">от <strong>4 200 ₽</strong>/м.п.</p>
+            </div>
+            <!-- Карточка 3 -->
+            <div class="card card--service animate-on-scroll">
+                <div class="card__icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="card__title">Шпунтовое ограждение</h3>
+                <p class="card__desc">Устройство шпунтовых стенок для котлованов, берегоукрепления и защиты от грунтовых вод.</p>
+                <p class="card__price">от <strong>3 500 ₽</strong>/м.п.</p>
+            </div>
+            <!-- Карточка 4 -->
+            <div class="card card--service animate-on-scroll">
+                <div class="card__icon">
+                    <i class="fa-solid fa-flask"></i>
+                </div>
+                <h3 class="card__title">Испытание свай</h3>
+                <p class="card__desc">Статические и динамические испытания свай для подтверждения проектной несущей способности.</p>
+                <p class="card__price">от <strong>15 000 ₽</strong></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ПРЕИМУЩЕСТВА ===== -->
+<section class="section advantages" id="advantages">
+    <div class="container">
+        <h2 class="section__title">Преимущества</h2>
+        <div class="advantages__grid">
+            <div class="advantage animate-on-scroll">
+                <div class="advantage__icon">
+                    <i class="fa-solid fa-truck-monster"></i>
+                </div>
+                <h3 class="advantage__title">Собственная техника</h3>
+                <p class="advantage__desc">Копры, молоты, вибропогружатели — весь парк в собственности, без посредников</p>
+            </div>
+            <div class="advantage animate-on-scroll">
+                <div class="advantage__icon">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <h3 class="advantage__title">Работаем круглый год</h3>
+                <p class="advantage__desc">Без сезонных простоев — забивка свай возможна в любое время года</p>
+            </div>
+            <div class="advantage animate-on-scroll">
+                <div class="advantage__icon">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <h3 class="advantage__title">Выезд за 24 часа</h3>
+                <p class="advantage__desc">Оперативно выезжаем на объект по всей Калужской области</p>
+            </div>
+            <div class="advantage animate-on-scroll">
+                <div class="advantage__icon">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h3 class="advantage__title">Гарантия качества</h3>
+                <p class="advantage__desc">Полный контроль качества на всех этапах — от забивки до испытаний</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== О НАС ===== -->
+<section class="section about" id="about">
+    <div class="container">
+        <h2 class="section__title">О нас</h2>
+        <div class="about__content animate-on-scroll">
+            <p>Компания <strong>«СВАЙБЕТОН»</strong> — профессиональная забивка железобетонных свай в Калуге и по всей Калужской области. Работаем с объектами любой сложности. Собственный парк техники, опытные специалисты, полный контроль качества на всех этапах.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ПРИМЕРЫ РАБОТ (ГАЛЕРЕЯ) ===== -->
+<section class="section projects" id="projects">
+    <div class="container">
+        <h2 class="section__title">Примеры работ</h2>
+        <div class="projects__grid">
+            <!-- Горизонтальное фото 1 -->
+            <div class="projects__item projects__item--horizontal animate-on-scroll">
+                <div class="projects__img-wrap">
+                    <img src="src/img/svHorizontal1.jpg" alt="Объект в Калуге — забивка свай для жилого комплекса" class="projects__img">
+                </div>
+                <p class="projects__caption">Объект в Калуге — жилой комплекс</p>
+            </div>
+            <!-- Вертикальное фото 1 -->
+            <div class="projects__item projects__item--vertical animate-on-scroll">
+                <div class="projects__img-wrap">
+                    <img src="src/img/svVertical1.jpg" alt="Забивка свай 300×300 мм" class="projects__img">
+                </div>
+                <p class="projects__caption">Забивка 300×300 мм</p>
+            </div>
+            <!-- Горизонтальное фото 2 -->
+            <div class="projects__item projects__item--horizontal animate-on-scroll">
+                <div class="projects__img-wrap">
+                    <img src="src/img/svHorizontal2.jpg" alt="Промышленный объект — свайное поле" class="projects__img">
+                </div>
+                <p class="projects__caption">Промышленный объект — свайное поле</p>
+            </div>
+            <!-- Вертикальное фото 2 -->
+            <div class="projects__item projects__item--vertical animate-on-scroll">
+                <div class="projects__img-wrap">
+                    <img src="src/img/svVertical2.jpg" alt="Шпунтовое ограждение котлована" class="projects__img">
+                </div>
+                <p class="projects__caption">Сваебойка на объекте</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ЦЕНЫ ===== -->
+<section class="section prices" id="prices">
+    <div class="container">
+        <h2 class="section__title">Цены</h2>
+        <div class="prices__table-wrap animate-on-scroll">
+            <table class="prices__table">
+                <thead>
+                    <tr>
+                        <th>Наименование работ</th>
+                        <th>Ед. измерения</th>
+                        <th>Цена</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Забивка сваи 150×150 мм</td>
+                        <td>м.п.</td>
+                        <td class="price-cell"><strong>2 500 ₽</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Забивка сваи 200×200 мм</td>
+                        <td>м.п.</td>
+                        <td class="price-cell"><strong>3 200 ₽</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Забивка сваи 300×300 мм</td>
+                        <td>м.п.</td>
+                        <td class="price-cell"><strong>4 200 ₽</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Шпунт Ларсена</td>
+                        <td>м.п.</td>
+                        <td class="price-cell"><strong>3 500 ₽</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Доставка по Калужской области</td>
+                        <td>рейс</td>
+                        <td class="price-cell">от <strong>5 000 ₽</strong></td>
+                    </tr>
+                    <tr class="prices__row--free">
+                        <td>Выезд специалиста на замер</td>
+                        <td>—</td>
+                        <td class="price-cell"><strong class="free-badge">Бесплатно</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ===== КОНТАКТЫ ===== -->
+<section class="section contacts" id="contacts">
+    <div class="container">
+        <h2 class="section__title">Контакты</h2>
+        <div class="contacts__grid">
+            <!-- Контактная информация -->
+            <div class="contacts__info">
+                <div class="contacts__item">
+                    <i class="fa-solid fa-phone contacts__icon"></i>
+                    <div>
+                        <p class="contacts__label">Телефон</p>
+                        <a href="tel:+79000000000" class="contacts__value">+7 (900) 000-00-00</a>
+                    </div>
+                </div>
+                <div class="contacts__item">
+                    <i class="fa-solid fa-envelope contacts__icon"></i>
+                    <div>
+                        <p class="contacts__label">Email</p>
+                        <a href="mailto:info@svaibeton.ru" class="contacts__value">info@svaibeton.ru</a>
+                    </div>
+                </div>
+                <div class="contacts__item">
+                    <i class="fa-solid fa-location-dot contacts__icon"></i>
+                    <div>
+                        <p class="contacts__label">Адрес</p>
+                        <p class="contacts__value">г. Калуга, ул. Строительная, д. 1</p>
+                    </div>
+                </div>
+                <div class="contacts__item">
+                    <i class="fa-solid fa-clock contacts__icon"></i>
+                    <div>
+                        <p class="contacts__label">График работы</p>
+                        <p class="contacts__value">Пн-Пт 8:00-20:00, Сб-Вс по заявке</p>
+                    </div>
+                </div>
+
+                <!-- Мессенджеры -->
+                <div class="contacts__messengers">
+                    <a href="https://wa.me/79000000000" target="_blank" rel="noopener noreferrer" class="messenger-btn messenger-btn--whatsapp" aria-label="WhatsApp">
+                        <span><img src="src/icons/max_logo.svg" alt=""></span>
+                    </a>
+                    <a href="https://t.me/+79000000000" target="_blank" rel="noopener noreferrer" class="messenger-btn messenger-btn--telegram" aria-label="Telegram">
+                        <i class="fa-brands fa-telegram"></i>
+                        <span>Telegram</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Форма обратной связи -->
+            <div class="contacts__form-wrap">
+                <form class="contact-form" id="contactForm">
+                    <h3 class="contact-form__title">Напишите нам</h3>
+                    <div class="form-group">
+                        <label for="contactName" class="form-label">Имя</label>
+                        <input type="text" id="contactName" name="name" class="form-input" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPhone" class="form-label">Телефон</label>
+                        <input type="tel" id="contactPhone" name="phone" class="form-input" placeholder="+7 (___) ___-__-__" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage" class="form-label">Сообщение</label>
+                        <textarea id="contactMessage" name="message" class="form-input form-input--textarea" placeholder="Опишите вашу задачу..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--accent btn--full">Отправить</button>
+                    <p class="form-note">Нажимая кнопку, вы соглашаетесь с <a href="#" class="form-link">политикой конфиденциальности</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ФУТЕР ===== -->
+<footer class="footer">
+    <div class="container footer__inner">
+        <div class="footer__top">
+            <div class="footer__brand">
+                <img src="src/icons/logo.png" alt="СВАЙБЕТОН" class="footer__logo">
+
+            </div>
+            <div class="footer__contacts">
+                <a href="tel:+79000000000" class="footer__phone">+7 (900) 000-00-00</a>
+                <div class="footer__socials">
+                    <a href="" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                    <a href="https://t.me/+79000000000" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                        <i class="fa-brands fa-telegram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <p class="footer__copy">&copy; 2026 СВАЙБЕТОН. Все права защищены.</p>
+            <a href="#" class="footer__privacy">Политика конфиденциальности</a>
+        </div>
+    </div>
+</footer>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО (Заказать звонок / Рассчитать стоимость) ===== -->
+<div class="modal" id="callbackModal">
+    <div class="modal__backdrop" id="modalBackdrop"></div>
+    <div class="modal__content">
+        <button class="modal__close" id="modalClose" aria-label="Закрыть">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h3 class="modal__title" id="modalTitle">Заказать звонок</h3>
+        <form class="modal__form" id="modalForm">
+            <div class="form-group">
+                <label for="modalName" class="form-label">Имя</label>
+                <input type="text" id="modalName" name="name" class="form-input" placeholder="Ваше имя" required>
+            </div>
+            <div class="form-group">
+                <label for="modalPhone" class="form-label">Телефон</label>
+                <input type="tel" id="modalPhone" name="phone" class="form-input" placeholder="+7 (___) ___-__-__" required>
+            </div>
+            <button type="submit" class="btn btn--accent btn--full">Отправить</button>
+            <p class="form-note">Нажимая кнопку, вы соглашаетесь с <a href="#" class="form-link">политикой конфиденциальности</a></p>
+        </form>
+    </div>
+</div>
+
+<!-- Скрипт -->
+<script src="scripts.js"></script>
+
+</body>
+</html>
