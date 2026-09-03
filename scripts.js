@@ -6,10 +6,16 @@
  * - Модальное окно (заказать звонок / рассчитать стоимость)
  * - Маска телефона +7 (XXX) XXX-XX-XX
  * - Анимация появления карточек при скролле
- * - Обработка форм (заглушка отправки)
+ * - Отправка форм в Telegram
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // ============================================
+    // КОНФИГУРАЦИЯ TELEGRAM
+    // ============================================
+    const BOT_TOKEN = '8935859913:AAELBngmSmra05AddqPHf-C8bX5dWqKWWiM';
+    const CHAT_ID = '1959502543';
 
     // ============================================
     // ЭЛЕМЕНТЫ
@@ -46,22 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================
     function phoneMask(input) {
         input.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, ''); // Убираем все нецифровые символки
+            let value = e.target.value.replace(/\D/g, '');
 
-            // Если начинается с 8, заменяем на 7
             if (value.startsWith('8')) {
                 value = '7' + value.slice(1);
             }
-            // Если не начинается с 7, добавляем 7
             if (value.length > 0 && !value.startsWith('7')) {
                 value = '7' + value;
             }
-            // Ограничиваем 11 цифрами
             if (value.length > 11) {
                 value = value.slice(0, 11);
             }
 
-            // Формируем форматированную строку
             let formatted = '';
             if (value.length > 0) {
                 formatted = '+7';
@@ -82,14 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.value = formatted;
         });
 
-        // При фокусе — подставляем +7 если пусто
         input.addEventListener('focus', function (e) {
             if (!e.target.value) {
                 e.target.value = '+7';
             }
         });
 
-        // При потере фокуса — убираем пустой +7
         input.addEventListener('blur', function (e) {
             if (e.target.value === '+7' || e.target.value === '+7 (') {
                 e.target.value = '';
@@ -100,6 +100,25 @@ document.addEventListener('DOMContentLoaded', () => {
     allPhoneInputs.forEach(input => phoneMask(input));
 
     // ============================================
+    // ФУНКЦИЯ ОТПРАВКИ В TELEGRAM
+    // ============================================
+    async function sendToTelegram(name, phone, message = 'не указано') {
+        const text = `📩 <b>Новая заявка с сайта</b>\n\n👤 Имя: ${name}\n📱 Телефон: ${phone}\n💬 Сообщение: ${message || 'не указано'}\n\n🌐 Отправлено: ${new Date().toLocaleString('ru-RU')}`;
+
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: text,
+                parse_mode: 'HTML'
+            })
+        });
+
+        return response.ok;
+    }
+
+    // ============================================
     // БУРГЕР-МЕНЮ
     // ============================================
     burgerBtn.addEventListener('click', () => {
@@ -108,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('no-scroll', mobileMenu.classList.contains('open'));
     });
 
-    // Закрытие мобильного меню при клике на ссылку
     mobileLinks.forEach(link => {
         link.addEventListener('click', () => {
             burgerBtn.classList.remove('open');
@@ -123,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
-            if (targetId === '#') return; // Пропускаем пустые якоря
+            if (targetId === '#') return;
 
             const targetEl = document.querySelector(targetId);
             if (targetEl) {
@@ -151,14 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const sectionId = section.getAttribute('id');
 
             if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                // Десктопная навигация
                 navLinks.forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('href') === `#${sectionId}`) {
                         link.classList.add('active');
                     }
                 });
-                // Мобильная навигация
                 mobileLinks.forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('href') === `#${sectionId}`) {
@@ -170,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('scroll', setActiveNav);
-    setActiveNav(); // Инициализация
+    setActiveNav();
 
     // ============================================
     // МОДАЛЬНОЕ ОКНО
@@ -179,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modalTitle.textContent = title;
         modal.classList.add('open');
         document.body.classList.add('no-scroll');
-        // Очищаем форму
         modalName.value = '';
         modalPhone.value = '';
     }
@@ -194,57 +209,89 @@ document.addEventListener('DOMContentLoaded', () => {
     modalClose.addEventListener('click', closeModal);
     modalBackdrop.addEventListener('click', closeModal);
 
-    // Закрытие по Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('open')) {
             closeModal();
         }
     });
 
-    // Отправка формы в модалке (заглушка)
-    modalForm.addEventListener('submit', (e) => {
+    // ============================================
+    // ОТПРАВКА МОДАЛЬНОЙ ФОРМЫ В TELEGRAM
+    // ============================================
+    modalForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
         const name = modalName.value.trim();
         const phone = modalPhone.value.trim();
 
         if (!name || phone.replace(/\D/g, '').length < 11) {
-            alert('Пожалуйста, заполните все поля корректно.');
+            alert('⚠️ Пожалуйста, заполните все поля корректно.');
             return;
         }
 
-        // Здесь будет отправка на сервер
-        alert(`Спасибо, ${name}! Мы перезвоним вам по номеру ${phone} в ближайшее время.`);
-        closeModal();
-    });
+        try {
+            const success = await sendToTelegram(name, phone);
 
-    // Отправка контактной формы (заглушка)
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = contactForm.querySelector('#contactName').value.trim();
-        const phone = contactPhone.value.trim();
-        const message = contactForm.querySelector('#contactMessage').value.trim();
-
-        if (!name || phone.replace(/\D/g, '').length < 11) {
-            alert('Пожалуйста, заполните имя и телефон корректно.');
-            return;
+            if (success) {
+                alert('✅ Спасибо! Мы перезвоним вам в ближайшее время.');
+                closeModal();
+            } else {
+                throw new Error('Ошибка отправки');
+            }
+        } catch (error) {
+            alert('❌ Произошла ошибка. Попробуйте позже или позвоните по телефону.');
+            console.error('Error:', error);
         }
-
-        // Здесь будет отправка на сервер
-        alert(`Спасибо, ${name}! Ваше сообщение получено. Мы свяжемся с вами по номеру ${phone}.`);
-        contactForm.reset();
     });
 
     // ============================================
-    // АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ (Intersection Observer)
+    // ОТПРАВКА КОНТАКТНОЙ ФОРМЫ В TELEGRAM
+    // ============================================
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('contactName').value.trim();
+        const phone = contactPhone.value.trim();
+        const message = document.getElementById('contactMessage').value.trim();
+
+        const lastSubmit = localStorage.getItem('lastFormSubmit');
+        if (lastSubmit && Date.now() - lastSubmit < 60000) {
+            alert('⏳ Пожалуйста, подождите 1 минуту перед повторной отправкой');
+            return;
+        }
+
+        if (!name || phone.replace(/\D/g, '').length < 11) {
+            alert('⚠️ Пожалуйста, заполните имя и телефон корректно.');
+            return;
+        }
+
+        try {
+            const success = await sendToTelegram(name, phone, message);
+
+            if (success) {
+                localStorage.setItem('lastFormSubmit', Date.now());
+                alert('✅ Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+                contactForm.reset();
+            } else {
+                throw new Error('Ошибка отправки');
+            }
+        } catch (error) {
+            alert('❌ Произошла ошибка. Попробуйте позже или позвоните по телефону.');
+            console.error('Error:', error);
+        }
+    });
+
+    // ============================================
+    // АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ
     // ============================================
     const animatedElements = document.querySelectorAll('.animate-on-scroll');
 
     if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries, observerInstance) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    observerInstance.unobserve(entry.target); // Анимация только один раз
+                    observer.unobserve(entry.target);
                 }
             });
         }, {
@@ -254,14 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         animatedElements.forEach(el => observer.observe(el));
     } else {
-        // Фоллбэк для старых браузеров — показываем всё сразу
         animatedElements.forEach(el => el.classList.add('visible'));
     }
 
     // ============================================
-    // БЛОКИРОВКА СКРОЛЛА ПРИ ОТКРЫТОЙ МОДАКЕ / МЕНЮ
+    // БЛОКИРОВКА СКРОЛЛА
     // ============================================
-    // CSS-класс для body
     const style = document.createElement('style');
     style.textContent = `
         body.no-scroll {
