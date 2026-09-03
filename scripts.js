@@ -6,17 +6,25 @@
  * - Модальное окно (заказать звонок / рассчитать стоимость)
  * - Маска телефона +7 (XXX) XXX-XX-XX
  * - Анимация появления карточек при скролле
- * - Отправка форм в Telegram
+ * - Отправка форм в Telegram + резерв на почту (Formspree)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============================================
-    // КОНФИГУРАЦИЯ TELEGRAM
+    // КОНФИГУРАЦИЯ TELEGRAM (base64)
     // ============================================
     const _tko = "ODkzNTg1OTkxMzpBQUVMQm5nbVNtcmEwNUFkZHFQSGYtQzhiWDVkV3FLV1dpTQ=="
     const _cko = "MTk1OTUwMjU0Mw=="
     
+    const BOT_TOKEN = atob(_tko);
+    const CHAT_ID = atob(_cko);
+
+    // ============================================
+    // КОНФИГУРАЦИЯ FORMPREE (резерв)
+    // ============================================
+    // ВСТАВЬ СВОЙ КЛЮЧ СЮДА (получил в Formspree)
+    const FORMSPREE_KEY = 'xgaeyral'; // например: 'xeqyabc'
 
     // ============================================
     // ЭЛЕМЕНТЫ
@@ -51,8 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================
     // МАСКА ТЕЛЕФОНА +7 (XXX) XXX-XX-XX
     // ============================================
-    const BOT_TOKEN = atob(_tko);
-    const CHAT_ID = atob(_cko);
     function phoneMask(input) {
         input.addEventListener('input', function (e) {
             let value = e.target.value.replace(/\D/g, '');
@@ -106,19 +112,74 @@ document.addEventListener('DOMContentLoaded', () => {
     // ФУНКЦИЯ ОТПРАВКИ В TELEGRAM
     // ============================================
     async function sendToTelegram(name, phone, message = 'не указано') {
-        const text = `📩 <b>Новая заявка с сайта</b>\n\n👤 Имя: ${name}\n📱 Телефон: ${phone}\n💬 Сообщение: ${message || 'не указано'}\n\n🌐 Отправлено: ${new Date().toLocaleString('ru-RU')}`;
+        try {
+            const text = `📩 <b>Новая заявка с сайта</b>\n\n👤 Имя: ${name}\n📱 Телефон: ${phone}\n💬 Сообщение: ${message || 'не указано'}\n\n🌐 Отправлено: ${new Date().toLocaleString('ru-RU')}`;
 
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: text,
-                parse_mode: 'HTML'
-            })
-        });
+            const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: text,
+                    parse_mode: 'HTML'
+                })
+            });
 
-        return response.ok;
+            return response.ok;
+        } catch (error) {
+            console.warn('Telegram недоступен:', error);
+            return false;
+        }
+    }
+
+    // ============================================
+    // ФУНКЦИЯ ОТПРАВКИ В FORMPREE (резерв)
+    // ============================================
+    async function sendToFormspree(name, phone, message = 'не указано') {
+        try {
+            const response = await fetch(`https://formspree.io/f/${FORMSPREE_KEY}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    phone: phone,
+                    message: message,
+                    _subject: 'Новая заявка с сайта СВАЙБЕТОН'
+                })
+            });
+
+            return response.ok;
+        } catch (error) {
+            console.warn('Formspree недоступен:', error);
+            return false;
+        }
+    }
+
+    // ============================================
+    // УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ОТПРАВКИ
+    // Telegram → если нет → Formspree
+    // ============================================
+    async function sendForm(name, phone, message = 'не указано') {
+        // 1. Пробуем Telegram
+        const tgSuccess = await sendToTelegram(name, phone, message);
+        
+        if (tgSuccess) {
+            return { success: true, method: 'Telegram' };
+        }
+
+        // 2. Если Telegram не работает — пробуем Formspree
+        console.warn('Telegram не доступен, пробуем Formspree...');
+        const fsSuccess = await sendToFormspree(name, phone, message);
+        
+        if (fsSuccess) {
+            return { success: true, method: 'Email (Formspree)' };
+        }
+
+        // 3. Если всё сломалось
+        return { success: false, method: 'none' };
     }
 
     // ============================================
@@ -219,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ============================================
-    // ОТПРАВКА МОДАЛЬНОЙ ФОРМЫ В TELEGRAM
+    // ОТПРАВКА МОДАЛЬНОЙ ФОРМЫ
     // ============================================
     modalForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -233,10 +294,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const success = await sendToTelegram(name, phone);
-
-            if (success) {
-                alert('✅ Спасибо! Мы перезвоним вам в ближайшее время.');
+            const result = await sendForm(name, phone);
+            
+            if (result.success) {
+                alert(`✅ Спасибо! Мы перезвоним вам в ближайшее время.`);
                 closeModal();
             } else {
                 throw new Error('Ошибка отправки');
@@ -248,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ============================================
-    // ОТПРАВКА КОНТАКТНОЙ ФОРМЫ В TELEGRAM
+    // ОТПРАВКА КОНТАКТНОЙ ФОРМЫ
     // ============================================
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -269,11 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const success = await sendToTelegram(name, phone, message);
-
-            if (success) {
+            const result = await sendForm(name, phone, message);
+            
+            if (result.success) {
                 localStorage.setItem('lastFormSubmit', Date.now());
-                alert('✅ Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+                alert(`✅ Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время.`);
                 contactForm.reset();
             } else {
                 throw new Error('Ошибка отправки');
