@@ -82,7 +82,6 @@ ul {
     font-family: var(--font-family);
     font-weight: 600;
     font-size: 14px;
-    cursor: pointer;
     transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
     text-align: center;
     white-space: nowrap;
@@ -137,12 +136,20 @@ ul {
     gap: 16px;
 }
 
+
+
 .header__logo-img {
     height: 45px;
     width: auto;
     background-color: #fff;
     padding: 0px 12px;
     border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.header__logo img:hover{
+    cursor: default;
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
 /* Навигация — скрыта на мобильных */
@@ -152,7 +159,7 @@ ul {
 
 .header__nav-list {
     display: flex;
-    gap: 24px;
+    gap: 30px;
 }
 
 .header__nav-link {
@@ -170,7 +177,7 @@ ul {
 .header__actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 30px;
 }
 
 .header__phone {
@@ -178,6 +185,7 @@ ul {
     font-weight: 700;
     font-size: 14px;
     white-space: nowrap;
+    cursor: default;
 }
 
 .header__callback-btn {
@@ -635,6 +643,10 @@ ul {
     margin-top: 24px;
 }
 
+.contacts__messengers a:hover {
+    cursor: default;
+}
+
 .messenger-btn {
     display: inline-flex;
     align-items: center;
@@ -780,11 +792,24 @@ ul {
     color: var(--color-accent);
     font-weight: 700;
     font-size: 16px;
+    cursor: default;
 }
 
 .footer__socials {
     display: flex;
     gap: 12px;
+    align-items: center;
+}
+
+.footer__socials img {
+    height: 20px;
+    width: auto;
+    transition: 0.3s ease;
+}
+
+
+.footer__socials img:hover {
+    opacity: 70%;
 }
 
 .footer__socials a {
