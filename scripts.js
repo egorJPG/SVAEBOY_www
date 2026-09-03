@@ -14,8 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================
     // КОНФИГУРАЦИЯ TELEGRAM
     // ============================================
-    const BOT_TOKEN = '8935859913:AAELBngmSmra05AddqPHf-C8bX5dWqKWWiM';
-    const CHAT_ID = '1959502543';
+    const _tko = "ODkzNTg1OTkxMzpBQUVMQm5nbVNtcmEwNUFkZHFQSGYtQzhiWDVkV3FLV1dpTQ=="
+    const _cko = "MTk1OTUwMjU0Mw=="
+    
 
     // ============================================
     // ЭЛЕМЕНТЫ
@@ -50,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================
     // МАСКА ТЕЛЕФОНА +7 (XXX) XXX-XX-XX
     // ============================================
+    const BOT_TOKEN = atob(_tko);
+    const CHAT_ID = atob(_cko);
     function phoneMask(input) {
         input.addEventListener('input', function (e) {
             let value = e.target.value.replace(/\D/g, '');
